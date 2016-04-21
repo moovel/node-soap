@@ -214,6 +214,18 @@ describe('SOAP Client', function() {
       }, baseUrl);
     });
 
+    it('should allow prevewing requests', function(done) {
+      soap.createClient(__dirname+'/wsdl/default_namespace.wsdl', function(err, client) {
+        assert.ok(client);
+        assert.ok(!err);
+
+        client.MyOperationRequest({}, function(err, result) {
+          assert.equal(result, '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ><soap:Body><Request xmlns="http://www.example.com/v1"></Request></soap:Body></soap:Envelope>');
+          done();
+        }, null, {'test-header': 'test'});
+      }, baseUrl);
+    });
+
     it('should have lastElapsedTime after a call with the time option passed', function(done) {
       soap.createClient(__dirname+'/wsdl/default_namespace.wsdl', function(err, client) {
         assert.ok(client);
